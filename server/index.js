@@ -1,27 +1,30 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require('cors')
+const cors = require("cors");
 
 const app = express();
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
+
 require("dotenv").config();
 
-mongoose.set('strictQuery', true);
+mongoose.set("strictQuery", true);
 mongoose.connect(process.env.MONGO_DB_URL, { useNewUrlParser: true });
 const con = mongoose.connection;
 
-con.on('open', ()=>{
-    console.log('Database Connected!');
+con.on("open", () => {
+  console.log("Database Connected!");
 });
 
 app.use(express.json());
 app.use(cors());
 
-const suggestionRouter = require('./routes/suggestions');
-app.use('/suggestions', suggestionRouter);
+const suggestionRouter = require("./routes/suggestions");
+app.use("/suggestions", suggestionRouter);
 
-app.listen(3000, ()=>{
-    console.log('Server is running!');
+app.listen(3000, () => {
+  console.log("Server is running!");
 });
 
 module.exports = app;

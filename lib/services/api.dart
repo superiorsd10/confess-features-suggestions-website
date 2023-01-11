@@ -1,25 +1,35 @@
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-import 'package:dio/dio.dart';
+class ApiServices {
+  static String baseUrl =
+      "https://confess-features-suggestions-website-m3qj.vercel.app/suggestions";
 
-class ApiServices{
-  static String baseUrl = "https://confess-features-suggestions-website-m3qj.vercel.app/suggestions";
+  // static String baseUrl = "http://localhost:3000/suggestions";
 
-  static void sendSuggestion({required String suggestion}) async{
-    final Dio dio = Dio();
+  static void sendSuggestion({required String suggestion}) async {
     final data = {
-      "body": suggestion,
+      "body": suggestion
     };
     final String jsonString = jsonEncode(data);
 
-    try{
-      var response = await dio.post(baseUrl, data: jsonString,);
-      if(response.statusCode == 200){
+    print(jsonString);
+
+    try {
+      http.Response response = await http.post(
+        Uri.parse(baseUrl),
+        body: jsonString,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      );
+      if (response.statusCode == 200) {
         print('Success!');
-      } else{
+        print(suggestion);
+      } else {
         print('Failed!');
       }
-    } on DioError catch(e){
+    } catch (e) {
       print(e);
     }
   }
