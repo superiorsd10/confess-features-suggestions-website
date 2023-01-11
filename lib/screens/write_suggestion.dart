@@ -1,5 +1,6 @@
 import 'package:confess_feature_suggestions/constants.dart';
 import 'package:confess_feature_suggestions/screens/thank_you.dart';
+import 'package:confess_feature_suggestions/services/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
@@ -142,6 +143,7 @@ class _WriteSuggestionState extends State<WriteSuggestion> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
+                            ApiServices.sendSuggestion(suggestion: suggestion);
                             Navigator.pushReplacement(
                               context,
                               PageTransition(

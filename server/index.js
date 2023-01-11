@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require('cors')
 
 const app = express();
 
@@ -14,6 +15,7 @@ con.on('open', ()=>{
 });
 
 app.use(express.json());
+app.use(cors());
 
 const suggestionRouter = require('./routes/suggestions');
 app.use('/suggestions', suggestionRouter);
